@@ -8,20 +8,21 @@ RUN     apt-get update \
             && apt-get -y upgrade \
             && apt-get install -y --no-install-recommends wget \
                 apt-transport-https \
+                pwgen \
             && wget -O "/tmp/graylog-repo.deb" "${GRAYLOG_REPO_DEB}" \
             && dpkg -i "/tmp/graylog-repo.deb" \
             && apt-get update \
             && apt-get install -y graylog-server \
             && mkdir -p /graylog \
-            && rm "/tmp/graylog-repo.deb"
+            && rm "/tmp/graylog-repo.deb" \
+            && rm -rf /var/lib/apt/lists/*
 
 COPY    log4j2.xml /etc/graylog/server/log4j2.xml
 
 # Copy scripts
-COPY    easy_config.sh /graylog/easy_config.sh
+COPY    scripts /graylog/scripts
 COPY    run.sh /graylog/run.sh
 
 # Execute
 WORKDIR /graylog
 CMD     exec /graylog/run.sh
-
