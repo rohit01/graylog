@@ -15,6 +15,9 @@ RUN     apt-get update \
             && mkdir -p /graylog \
             && rm "/tmp/graylog-repo.deb"
 
+COPY    log4j2.xml /etc/graylog/server/log4j2.xml
+
+# Copy startup script
 COPY    run.sh /graylog/run.sh
 
 # Execute
