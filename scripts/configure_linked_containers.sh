@@ -6,7 +6,7 @@
 
 set -e
 
-source "$(dirname $0)/global.sh"
+source "/graylog/scripts/global.sh"
 
 if [ ! -z "${MONGO_PORT_27017_TCP_ADDR}" ] && [ ! -z "${MONGO_PORT_27017_TCP_PORT}" ]; then
     sed -i -e "s\mongodb_uri =.*$\mongodb_uri = mongodb://${MONGO_PORT_27017_TCP_ADDR}:${MONGO_PORT_27017_TCP_PORT}/graylog\\" $CONFIG_FILE

@@ -5,7 +5,7 @@
 
 set -e
 
-source "$(dirname $0)/global.sh"
+source "/graylog/scripts/global.sh"
 
 # Overwrite default http timeout
 sed -i -e "s/#http_connect_timeout=.*$/http_connect_timeout=10s/" ${CONFIG_FILE}
