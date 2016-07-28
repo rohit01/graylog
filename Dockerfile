@@ -17,7 +17,8 @@ RUN     apt-get update \
 
 COPY    log4j2.xml /etc/graylog/server/log4j2.xml
 
-# Copy startup script
+# Copy scripts
+COPY    easy_config.sh /graylog/easy_config.sh
 COPY    run.sh /graylog/run.sh
 
 # Execute
