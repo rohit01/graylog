@@ -13,5 +13,5 @@ if [ ! -z "${MONGO_PORT_27017_TCP_ADDR}" ] && [ ! -z "${MONGO_PORT_27017_TCP_POR
 fi
 
 if [ ! -z "${ELASTICSEARCH_PORT_9300_TCP_ADDR}" ] && [ ! -z "${ELASTICSEARCH_PORT_9300_TCP_PORT}" ]; then
-    sed -i -e "s\#elasticsearch_discovery_zen_ping_unicast_hosts =.*$\#elasticsearch_discovery_zen_ping_unicast_hosts =${ELASTICSEARCH_PORT_9300_TCP_ADDR}:${ELASTICSEARCH_PORT_9300_TCP_PORT}\\" $CONFIG_FILE
+    sed -i -e "s\#elasticsearch_discovery_zen_ping_unicast_hosts =.*$\elasticsearch_discovery_zen_ping_unicast_hosts =${ELASTICSEARCH_PORT_9300_TCP_ADDR}:${ELASTICSEARCH_PORT_9300_TCP_PORT}\\" $CONFIG_FILE
 fi
