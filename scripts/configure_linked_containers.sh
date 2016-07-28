@@ -16,10 +16,11 @@ if [ ! -z "${ELASTICSEARCH_PORT_9300_TCP_ADDR}" ] && [ ! -z "${ELASTICSEARCH_POR
     sed -i -e "s/#elasticsearch_discovery_zen_ping_multicast_enabled =.*$/elasticsearch_discovery_zen_ping_multicast_enabled = false/" ${CONFIG_FILE}
     sed -i -e "s\#elasticsearch_discovery_zen_ping_unicast_hosts =.*$\elasticsearch_discovery_zen_ping_unicast_hosts = ${ELASTICSEARCH_PORT_9300_TCP_ADDR}:${ELASTICSEARCH_PORT_9300_TCP_PORT}\\" ${CONFIG_FILE}
     sed -i -e "s\#elasticsearch_config_file =.*$\elasticsearch_config_file = ${ELASTICSEARCH_YML_FILE}\\" ${CONFIG_FILE}
+    sed -i -e "s\#elasticsearch_cluster_name =.*$\#elasticsearch_cluster_name = elasticsearch\\" ${CONFIG_FILE}
 
     # Create elasticsearch.yml file
     cat > ${ELASTICSEARCH_YML_FILE} <<-EOF
-		cluster.name: graylog-prod-ola-dcos
+		cluster.name: elasticsearch
 		node.master: false
 		node.data: false
 		transport.tcp.port: 9350
