@@ -8,61 +8,64 @@ set -e
 source "/graylog/scripts/global.sh"
 
 # Overwrite default http timeout
-sed -i -e "s/#http_connect_timeout=.*$/http_connect_timeout=10s/" ${CONFIG_FILE}
+update_config "http_connect_timeout" "10s"
 
-sed -i -e "s/password_secret =\s*$/password_secret = ${GRAYLOG_SERVER_SECRET:=$(pwgen -s 96)}/" ${CONFIG_FILE}
-sed -i -e "s/rest_listen_uri =.*$/rest_listen_uri = http:\/\/0.0.0.0:12900\//" ${CONFIG_FILE}
-sed -i -e "s/#web_listen_uri =.*$/web_listen_uri = http:\/\/0.0.0.0:9000\//" ${CONFIG_FILE}
-sed -i -e "s/#elasticsearch_network_host =.*$/elasticsearch_network_host = 0.0.0.0/" ${CONFIG_FILE}
+update_config "password_secret" "${GRAYLOG_SERVER_SECRET:=$(pwgen -s 96)}"
+update_config "rest_listen_uri" "http://0.0.0.0:12900/"
+update_config "web_listen_uri" "http://0.0.0.0:9000/"
+update_config "elasticsearch_network_host" "0.0.0.0"
+
 
 if [ ! -z "${GRAYLOG_IS_MASTER}" ]; then
-    sed -i -e "s/is_master =.*$/is_master = ${GRAYLOG_IS_MASTER}/" ${CONFIG_FILE}
+    update_config "is_master" "${GRAYLOG_IS_MASTER}"
 fi
 
 if [ ! -z "${GRAYLOG_PASSWORD}" ]; then
-    sed -i -e "s/root_password_sha2 =$/root_password_sha2 = $(echo -n ${GRAYLOG_PASSWORD} | sha256sum | awk '{print $1}')/" ${CONFIG_FILE}
+    update_config "root_password_sha2" "$(echo -n ${GRAYLOG_PASSWORD} | sha256sum | awk '{print $1}')"
 fi
+
 if [ ! -z "${GRAYLOG_SMTP_SERVER}" ]; then
-    sed -i -e "s/#transport_email_enabled = false/transport_email_enabled = true/" ${CONFIG_FILE}
-    sed -i -e "s/#transport_email_use_auth =.*$/transport_email_use_auth = true/" ${CONFIG_FILE}
-    sed -i -e "s/#transport_email_use_tls =.*$/transport_email_use_tls = true/" ${CONFIG_FILE}
-    sed -i -e "s/#transport_email_use_ssl =.*$/transport_email_use_ssl = true/" ${CONFIG_FILE}
-    sed -i -e "s/#transport_email_subject_prefix =.*$/transport_email_subject_prefix = [graylog]/" ${CONFIG_FILE}
-    sed -i -e "s/#transport_email_hostname =.*$/transport_email_hostname = ${GRAYLOG_SMTP_SERVER}/" ${CONFIG_FILE}
+    update_config "transport_email_enabled" "true"
+    update_config "transport_email_use_auth" "true"
+    update_config "transport_email_use_tls" "true"
+    update_config "transport_email_use_ssl" "true"
+    update_config "transport_email_subject_prefix" "[graylog]"
+    update_config "transport_email_hostname" "${GRAYLOG_SMTP_SERVER}"
 fi
+
 if [ ! -z "${GRAYLOG_SMTP_PORT}" ]; then
-    sed -i -e "s/#transport_email_port =.*$/transport_email_port = ${GRAYLOG_SMTP_PORT}/" ${CONFIG_FILE}
+    update_config "transport_email_port" "${GRAYLOG_SMTP_PORT}"
 fi
 if [ ! -z "${GRAYLOG_SMTP_USER}" ]; then
-    sed -i -e "s/#transport_email_auth_username =.*$/transport_email_auth_username = ${GRAYLOG_SMTP_USER}/" ${CONFIG_FILE}
+    update_config "transport_email_auth_username" "${GRAYLOG_SMTP_USER}"
 fi
 if [ ! -z "${GRAYLOG_SMTP_PASSWORD}" ]; then
-    sed -i -e "s/#transport_email_auth_password =.*$/transport_email_auth_password = ${GRAYLOG_SMTP_PASSWORD}/" ${CONFIG_FILE}
+    update_config "transport_email_auth_password" "${GRAYLOG_SMTP_PASSWORD}"
 fi
 
 if [ ! -z "${GRAYLOG_ES_SHARDS}" ]; then
-    sed -i -e "s/elasticsearch_shards =.*$/elasticsearch_shards = ${GRAYLOG_ES_SHARDS}/" ${CONFIG_FILE}
+    update_config "elasticsearch_shards" "${GRAYLOG_ES_SHARDS}"
 fi
 
 if [ ! -z "${GRAYLOG_ES_REPLICAS}" ]; then
-    sed -i -e "s/elasticsearch_replicas =.*$/elasticsearch_replicas = ${GRAYLOG_ES_REPLICAS}/" ${CONFIG_FILE}
+    update_config "elasticsearch_replicas" "${GRAYLOG_ES_REPLICAS}"
 fi
 
 if [ ! -z "${GRAYLOG_ES_PREFIX}" ]; then
-    sed -i -e "s/elasticsearch_index_prefix =.*$/elasticsearch_index_prefix = ${GRAYLOG_ES_PREFIX}/" ${CONFIG_FILE}
+    update_config "elasticsearch_index_prefix" "${GRAYLOG_ES_PREFIX}"
 fi
 
 if [ ! -z "${GRAYLOG_ES_CLUSTER}" ]; then
-    sed -i -e "s/#elasticsearch_cluster_name =.*$/elasticsearch_cluster_name = ${GRAYLOG_ES_CLUSTER}/" ${CONFIG_FILE}
+    update_config "elasticsearch_cluster_name" "${GRAYLOG_ES_CLUSTER}"
 fi
 
 if [ ! -z "${GRAYLOG_ES_NODES}" ]; then
-    sed -i -e "s/#elasticsearch_discovery_zen_ping_multicast_enabled =.*$/elasticsearch_discovery_zen_ping_multicast_enabled = false/" ${CONFIG_FILE}
-    sed -i -e "s/#elasticsearch_discovery_zen_ping_unicast_hosts =.*$/elasticsearch_discovery_zen_ping_unicast_hosts = ${GRAYLOG_ES_NODES}/" ${CONFIG_FILE}
+    update_config "elasticsearch_discovery_zen_ping_multicast_enabled" "false"
+    update_config "elasticsearch_discovery_zen_ping_unicast_hosts" "${GRAYLOG_ES_NODES}"
 fi
 
 if [ ! -z "${GRAYLOG_MONGO_URI}" ]; then
-    sed -i -e "s\mongodb_uri =.*$\mongodb_uri = ${GRAYLOG_MONGO_URI}\\" ${CONFIG_FILE}
+    update_config "mongodb_uri" "${GRAYLOG_MONGO_URI}"
 fi
 
 # Set heap to different value if specified

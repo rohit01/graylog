@@ -13,10 +13,10 @@ if [ ! -z "${MONGO_PORT_27017_TCP_ADDR}" ] && [ ! -z "${MONGO_PORT_27017_TCP_POR
 fi
 
 if [ ! -z "${ELASTICSEARCH_PORT_9300_TCP_ADDR}" ] && [ ! -z "${ELASTICSEARCH_PORT_9300_TCP_PORT}" ]; then
-    sed -i -e "s/#elasticsearch_discovery_zen_ping_multicast_enabled =.*$/elasticsearch_discovery_zen_ping_multicast_enabled = false/" ${CONFIG_FILE}
-    sed -i -e "s\#elasticsearch_discovery_zen_ping_unicast_hosts =.*$\elasticsearch_discovery_zen_ping_unicast_hosts = ${ELASTICSEARCH_PORT_9300_TCP_ADDR}:${ELASTICSEARCH_PORT_9300_TCP_PORT}\\" ${CONFIG_FILE}
-    sed -i -e "s\#elasticsearch_config_file =.*$\elasticsearch_config_file = ${ELASTICSEARCH_YML_FILE}\\" ${CONFIG_FILE}
-    sed -i -e "s\#elasticsearch_cluster_name =.*$\#elasticsearch_cluster_name = elasticsearch\\" ${CONFIG_FILE}
+    update_config "elasticsearch_discovery_zen_ping_multicast_enabled" "false"
+    update_config "elasticsearch_discovery_zen_ping_unicast_hosts" "${ELASTICSEARCH_PORT_9300_TCP_ADDR}:${ELASTICSEARCH_PORT_9300_TCP_PORT}"
+    update_config "elasticsearch_config_file" "${ELASTICSEARCH_YML_FILE}"
+    update_config "elasticsearch_cluster_name" "elasticsearch"
 
     # Create elasticsearch.yml file
     cat > ${ELASTICSEARCH_YML_FILE} <<-EOF
