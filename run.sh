@@ -8,6 +8,7 @@ set -e
 
 source /graylog/scripts/configure_linked_containers.sh
 source /graylog/scripts/easy_configuration.sh
+source /graylog/scripts/advanced_configuration.sh
 
 source /etc/default/graylog-server
 source /usr/share/graylog-server/installation-source.sh
