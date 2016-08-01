@@ -11,8 +11,8 @@ source "/graylog/scripts/global.sh"
 # Identify all env variables with GL_CONF_ prefix and update config
 for VAR in $(env); do
     if [[ $VAR =~ ^GL_CONF_ ]]; then
-        gl_conf_name=$(echo "$VAR" | sed -r 's/^GL_CONF_([^=]*)=.*/\1/' | sed 's/__/./g' | tr '[:upper:]' '[:lower:]')
-        gl_conf_value=$(echo "$VAR" | sed -r "s/^[^=]*=(.*)/\1/")
+        gl_conf_name="$(echo "$VAR" | sed -r 's/^GL_CONF_([^=]*)=.*/\1/' | sed -e 's/__/./g' -e "s|^\s*||" -e "s|\s*$||" | tr '[:upper:]' '[:lower:]')"
+        gl_conf_value="$(echo "$VAR" | sed -r -e "s/^[^=]*=(.*)/\1/" -e "s|^\s*||" -e "s|\s*$||")"
         update_config "${gl_conf_name}" "${gl_conf_value}"
     fi
 done
