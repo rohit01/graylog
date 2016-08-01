@@ -10,6 +10,7 @@ RUN     apt-get update \
                 apt-transport-https \
                 uuid-runtime \
                 pwgen \
+                tzdata-java \
             && wget -O "/tmp/graylog-repo.deb" "${GRAYLOG_REPO_DEB}" \
             && dpkg -i "/tmp/graylog-repo.deb" \
             && apt-get update \
