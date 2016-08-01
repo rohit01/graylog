@@ -8,6 +8,7 @@ RUN     apt-get update \
             && apt-get -y upgrade \
             && apt-get install -y --no-install-recommends wget \
                 apt-transport-https \
+                uuid-runtime \
                 pwgen \
             && wget -O "/tmp/graylog-repo.deb" "${GRAYLOG_REPO_DEB}" \
             && dpkg -i "/tmp/graylog-repo.deb" \
