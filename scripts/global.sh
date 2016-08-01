@@ -20,3 +20,9 @@ update_config() {
         echo "${ckey} = ${cvalue}" >> ${CONFIG_FILE}
     fi
 }
+
+get_config() {
+    # echo the value of config if it is defined
+    ckey="${1}"
+    grep "^\s*${ckey}\s*=.*$" ${CONFIG_FILE} | sed -e "s|^\s*${ckey}\s*=\(.*\)$|\1|" -e "s|^\s*||" -e "s|\s*$||"
+}
