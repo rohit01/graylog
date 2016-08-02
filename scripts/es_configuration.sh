@@ -22,7 +22,11 @@ if [ ! -f "${es_config_path}" ]; then
     echo "cluster.name: $(get_config elasticsearch_cluster_name)" > "${es_config_path}"
     echo "node.master: false" >> "${es_config_path}"
     echo "node.data: false" >> "${es_config_path}"
-    echo "transport.tcp.port: 9350" >> "${es_config_path}"
+    if [ "X${HOST}" != "X" ]; then
+        echo "transport.tcp.port: ${PORT2}" >> "${es_config_path}"
+    else
+        echo "transport.tcp.port: 9350" >> "${es_config_path}"
+    fi
     echo "http.enabled: false" >> "${es_config_path}"
     echo "discovery.zen.ping.multicast.enabled: false" >> "${es_config_path}"
     echo "discovery.zen.ping.unicast.hosts: $(get_config elasticsearch_discovery_zen_ping_unicast_hosts)" >> "${es_config_path}"
