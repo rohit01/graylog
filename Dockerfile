@@ -17,8 +17,9 @@ RUN     apt-get update \
             && apt-get update \
             && apt-get install -y graylog-server \
             && mkdir -p /graylog \
-            && rm "/tmp/graylog-repo.deb" \
-            && rm -rf /var/lib/apt/lists/*
+            && rm -rf /etc/graylog/server/node-id \
+                /tmp/graylog-repo.deb \
+                /var/lib/apt/lists/*
 
 COPY    log4j2.xml /etc/graylog/server/log4j2.xml
 
