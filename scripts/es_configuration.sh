@@ -27,6 +27,7 @@ if [ ! -f "${es_config_path}" ]; then
     echo "discovery.zen.ping.multicast.enabled: false" >> "${es_config_path}"
     echo "discovery.zen.ping.unicast.hosts: $(get_config elasticsearch_discovery_zen_ping_unicast_hosts)" >> "${es_config_path}"
     if [ "X${HOST}" != "X" ]; then
-        echo "discovery.zen.ping.multicast.address: $(dig +short "${HOST}")" >> "${es_config_path}"
+        echo "network.bind_host: 0.0.0.0" >> "${es_config_path}"
+        echo "network.host: $(dig +short "${HOST}")" >> "${es_config_path}"
     fi
 fi
