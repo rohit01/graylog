@@ -70,6 +70,5 @@ fi
 
 # Set heap to different value if specified
 if [ ! -z "${GRAYLOG_MEMORY}" ]; then
-    sed -i -- "s/Xms1g/Xms${GRAYLOG_MEMORY}/g" ${INIT_CONFIG_FILE}
     sed -i -- "s/Xmx1g/Xmx${GRAYLOG_MEMORY}/g" ${INIT_CONFIG_FILE}
 fi
