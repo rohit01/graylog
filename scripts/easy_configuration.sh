@@ -72,3 +72,8 @@ fi
 if [ ! -z "${GRAYLOG_MEMORY}" ]; then
     sed -i -- "s/Xmx1g/Xmx${GRAYLOG_MEMORY}/g" ${INIT_CONFIG_FILE}
 fi
+
+# Logging options
+if [ ! -z "${GRAYLOG_LOGLEVEL}" ]; then
+    update_loglevel "${GRAYLOG_LOGLEVEL}"
+fi

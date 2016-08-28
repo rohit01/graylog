@@ -8,6 +8,7 @@ set -e
 CONFIG_FILE="/etc/graylog/server/server.conf"
 INIT_CONFIG_FILE="/etc/default/graylog-server"
 ELASTICSEARCH_YML_FILE="/etc/graylog/server/elasticsearch.yml"
+LOG4J_FILE="/etc/graylog/server/log4j2.xml"
 
 update_config() {
     ckey="${1}"
@@ -25,4 +26,18 @@ get_config() {
     # echo the value of config if it is defined
     ckey="${1}"
     grep "^\s*${ckey}\s*=.*$" ${CONFIG_FILE} | sed -e "s|^\s*${ckey}\s*=\(.*\)$|\1|" -e "s|^\s*||" -e "s|\s*$||"
+}
+
+update_loglevel() {
+    loglevel="${1}"
+    name="${2}"
+    if [ "X${loglevel}" == "X" ]; then
+        echo "ERROR - loglevel not specified!"
+        exit 1
+    fi
+    if [ "X${name}" == "X" ]; then
+        sed -i 's/ level="[^"]*"/ level="'"${loglevel}"'"/g' "${LOG4J_FILE}"
+    else
+        sed -i 's/name="'"${name}"'"\s* level="[^"]*"/name="'"${name}"'" level="'"${loglevel}"'"/g' "${LOG4J_FILE}"
+    fi
 }

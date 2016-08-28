@@ -34,4 +34,7 @@ if [ ! -f "${es_config_path}" ]; then
         echo "network.bind_host: 0.0.0.0" >> "${es_config_path}"
         echo "network.host: $(dig +short "${HOST}")" >> "${es_config_path}"
     fi
+    if [ ! -z "${ES_INDEX_REFRESH_INTERVAL}" ]; then
+        echo "index.refresh_interval: ${ES_INDEX_REFRESH_INTERVAL}" >> "${es_config_path}"
+    fi
 fi
