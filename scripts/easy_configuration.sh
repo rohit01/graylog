@@ -77,3 +77,20 @@ fi
 if [ ! -z "${GRAYLOG_LOGLEVEL}" ]; then
     update_loglevel "${GRAYLOG_LOGLEVEL}"
 fi
+
+# MaxMind db download URL for geolocation support
+if [ ! -z "${MAXMIND_DB_URL}" ]; then
+    cd /tmp
+    wget -q "${MAXMIND_DB_URL}"
+    filename="$(basename "${MAXMIND_DB_URL}")"
+    echo "Downloaded Maxmind DB - ${filename}"
+    if [ ${filename: -3} == ".gz" ]; then
+        gzip -d "${filename}"
+        echo "Decompressed Maxmind DB file - ${filename}"
+    fi
+    # Move db file to configured location
+    if [ ! -z "${GEOLOCATION_PATH}" ]; then
+        mv "${filename%.gz}" "${GEOLOCATION_PATH}"
+        echo "Moved maxmind DB to location ${GEOLOCATION_PATH}"
+    fi
+fi
