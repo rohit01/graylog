@@ -11,6 +11,7 @@ RUN     apt-get update \
                 pwgen \
                 tzdata-java \
                 dnsutils \
+                ca-certificates \
             && wget -O "/tmp/graylog-repo.deb" "${GRAYLOG_REPO_DEB}" \
             && dpkg -i "/tmp/graylog-repo.deb" \
             && apt-get update \
