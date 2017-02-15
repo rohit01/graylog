@@ -1,5 +1,4 @@
-# Based on debian jessie (8)
-FROM java:8
+FROM debian:8.7
 MAINTAINER Rohit Gupta <hello@rohit.io>
 
 ENV     GRAYLOG_REPO_DEB="https://packages.graylog2.org/repo/debian/pool/stable/2.2/g/graylog-2.2-repository/graylog-2.2-repository_1-5_all.deb"
